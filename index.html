@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convite Aniversário Valeria Oliveira | Spazio Villa Regia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Cinzel:wght@400;500;600;700&family=Dancing+Script:wght@500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --rosa-principal: #d46a7e;
+            --rosa-escuro: #b76e79;
+            --rosa-claro: #f5c6cb;
+            --rosa-suave: #f9f3f3;
+            --dourado: #d4af37;
+            --azul-portugues: #1e3a5f;
+            --branco: #ffffff;
+            --verde-folha: #7a9f79;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f9f3f3 0%, #f5e6e8 100%);
+            overflow-x: hidden;
+            font-family: 'Playfair Display', serif;
+            color: #5a2c3d;
+            min-height: 100vh;
+        }
+
+        /* Tela de introdução com estilo português */
+        #intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeOut 1s ease-in-out 4s forwards;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .intro-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><path d="M30,30 L170,30 L170,170 L30,170 Z" fill="none" stroke="%23d46a7e" stroke-width="3" stroke-dasharray="8,8"/><circle cx="100" cy="100" r="40" fill="none" stroke="%23d46a7e" stroke-width="2"/><path d="M60,60 L140,140 M140,60 L60,140" fill="none" stroke="%23d46a7e" stroke-width="2"/></svg>'),
+                radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(212, 106, 126, 0.15) 0%, transparent 50%);
+            opacity: 0.1;
+            animation: pulse 8s infinite alternate;
+        }
+
+        .intro-content {
+            text-align: center;
+            color: #8a1c3a;
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .intro-name {
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            position: relative;
+            font-family: 'Great Vibes', cursive;
+            letter-spacing: 3px;
+            animation: nameEntrance 2s ease-out;
+            color: #8a1c3a;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            line-height: 1.2;
+        }
+
+        .intro-name::after {
+            content: "";
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(200px, 60%);
+            height: 3px;
+            background: linear-gradient(to right, transparent, #8a1c3a, transparent);
+            border-radius: 2px;
+        }
+
+        .intro-subtitle {
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            font-style: italic;
+            letter-spacing: 4px;
+            animation: subtitleEntrance 2.5s ease-out;
+            color: #d46a7e;
+            font-family: 'Dancing Script', cursive;
+            line-height: 1.4;
+        }
+
+        .floating-patterns {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .pattern {
+            position: absolute;
+            font-size: clamp(1rem, 3vw, 2rem);
+            color: var(--rosa-principal);
+            opacity: 0.3;
+            animation: floatPattern 15s infinite linear;
+        }
+
+        /* Página do convite fechado */
+        #closed-invite {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            justify-content: center;
+            align-items: center;
+            z-index: 900;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .invite-container {
+            position: relative;
+            width: min(420px, 90vw);
+            height: min(580px, 85vh);
+            perspective: 1500px;
+        }
+
+        .invite {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+
+        .invite-front, .invite-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            box-shadow: 
+                0 25px 50px rgba(183, 110, 121, 0.3),
+                0 0 0 2px #d46a7e,
+                0 0 30px rgba(212, 106, 126, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: clamp(20px, 5vw, 50px);
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .invite-front {
+            background: 
+                linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(249,243,243,0.98) 100%),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><path d="M20,20 L100,20 L100,100 L20,100 Z" fill="none" stroke="%23d46a7e" stroke-width="2.5" stroke-dasharray="6,6"/><circle cx="60" cy="60" r="25" fill="none" stroke="%23d46a7e" stroke-width="2"/><path d="M40,40 L80,80 M80,40 L40,80" fill="none" stroke="%23d46a7e" stroke-width="1.5"/></svg>');
+            border: 3px solid #d46a7e;
+        }
+
+        .invite-front::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(212, 106, 126, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(183, 110, 121, 0.1) 0%, transparent 50%);
+            z-index: 0;
+        }
+
+        .invite-back {
+            background: #fff;
+            transform: rotateY(180deg);
+            border: 3px solid #d46a7e;
+        }
+
+        .invite:hover {
+            transform: rotateY(20deg) scale(1.03);
+        }
+
+        .invite-title {
+            font-size: clamp(2rem, 6vw, 2.8rem);
+            color: #8a1c3a;
+            margin-bottom: 20px;
+            font-family: 'Cinzel', serif;
+            position: relative;
+            z-index: 1;
+            line-height: 1.2;
+        }
+
+        .invite-subtitle {
+            font-size: clamp(1rem, 3vw, 1.3rem);
+            color: #d46a7e;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+            font-family: 'Dancing Script', cursive;
+            line-height: 1.4;
+        }
+
+        .invite h3 {
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            color: #8a1c3a;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+            font-family: 'Great Vibes', cursive;
+            line-height: 1.2;
+        }
+
+        .open-btn {
+            background: linear-gradient(135deg, #d46a7e, #b76e79);
+            color: white;
+            border: none;
+            padding: clamp(12px, 3vw, 18px) clamp(25px, 6vw, 40px);
+            border-radius: 35px;
+            font-size: clamp(1rem, 3vw, 1.3rem);
+            cursor: pointer;
+            transition: all 0.5s;
+            margin-top: 30px;
+            box-shadow: 
+                0 8px 25px rgba(212, 106, 126, 0.5),
+                0 0 0 1px rgba(255,255,255,0.3);
+            position: relative;
+            z-index: 1;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 1.5px;
+            overflow: hidden;
+            width: auto;
+            min-width: 200px;
+        }
+
+        .open-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .open-btn:hover {
+            transform: translateY(-8px) scale(1.08);
+            box-shadow: 
+                0 15px 35px rgba(212, 106, 126, 0.7),
+                0 0 20px rgba(255,255,255,0.5);
+        }
+
+        .open-btn:hover::before {
+            left: 100%;
+        }
+
+        .rosa-border {
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            border: 2px solid #d46a7e;
+            border-radius: 15px;
+            pointer-events: none;
+        }
+
+        .smoke {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .smoke-particle {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: radial-gradient(circle, rgba(245,198,203,0.9) 0%, rgba(245,198,203,0) 70%);
+            border-radius: 50%;
+            filter: blur(8px);
+            opacity: 0;
+        }
+
+        /* Página principal do convite */
+        #main-invite {
+            display: none;
+            padding: clamp(40px, 8vw, 80px) clamp(10px, 3vw, 20px);
+            max-width: 1300px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #f9f3f3 0%, #f5e6e8 100%);
+            min-height: 100vh;
+            box-shadow: 0 0 80px rgba(212, 106, 126, 0.2);
+            opacity: 0;
+            animation: fadeIn 2s ease-out forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-bg-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-image: 
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 150 150"><path d="M25,25 L125,25 L125,125 L25,125 Z" fill="none" stroke="%23d46a7e" stroke-width="2" stroke-dasharray="5,5" opacity="0.1"/><circle cx="75" cy="75" r="30" fill="none" stroke="%23d46a7e" stroke-width="1.5" opacity="0.1"/></svg>');
+            opacity: 0.05;
+            z-index: 0;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: clamp(40px, 8vw, 80px);
+            position: relative;
+            z-index: 1;
+            padding: 0 10px;
+        }
+
+        .header h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            color: #8a1c3a;
+            margin-bottom: 25px;
+            font-family: 'Great Vibes', cursive;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            line-height: 1.2;
+        }
+
+        .header p {
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            color: #d46a7e;
+            font-style: italic;
+            letter-spacing: 2px;
+            font-family: 'Dancing Script', cursive;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .venue-highlight {
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            color: #8a1c3a;
+            margin-top: 20px;
+            font-weight: 600;
+            font-family: 'Cinzel', serif;
+            line-height: 1.3;
+        }
+
+        .venue-address {
+            font-size: clamp(1rem, 3vw, 1.3rem);
+            color: #d46a7e;
+            margin-top: 10px;
+            font-style: italic;
+            line-height: 1.4;
+            padding: 0 10px;
+        }
+
+        .portuguese-border {
+            width: min(50%, 300px);
+            height: 4px;
+            background: linear-gradient(to right, transparent, #d46a7e, #b76e79, #d46a7e, transparent);
+            margin: 40px auto;
+            position: relative;
+            border-radius: 2px;
+        }
+
+        .portuguese-border::before, .portuguese-border::after {
+            content: "❦";
+            position: absolute;
+            color: #d46a7e;
+            top: -15px;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+        }
+
+        .portuguese-border::before {
+            left: 20%;
+        }
+
+        .portuguese-border::after {
+            right: 20%;
+        }
+
+        .content-section {
+            margin-bottom: clamp(35px, 6vw, 70px);
+            padding: clamp(25px, 5vw, 50px);
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 15px 35px rgba(212, 106, 126, 0.1),
+                0 0 0 1px rgba(212, 106, 126, 0.2);
+            transition: transform 0.6s, box-shadow 0.6s;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: 1px solid rgba(212, 106, 126, 0.3);
+        }
+
+        .content-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(to right, #d46a7e, #b76e79);
+        }
+
+        .content-section:hover {
+            transform: translateY(-15px);
+            box-shadow: 
+                0 25px 50px rgba(212, 106, 126, 0.2),
+                0 0 0 1px rgba(212, 106, 126, 0.3);
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: #8a1c3a;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Cinzel', serif;
+            line-height: 1.2;
+            width: 100%;
+            padding: 0 10px;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(100%, 300px);
+            height: 3px;
+            background: linear-gradient(to right, #d46a7e, #b76e79);
+            border-radius: 2px;
+        }
+
+        .details {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: clamp(20px, 4vw, 35px);
+        }
+
+        .detail-card {
+            flex: 1;
+            min-width: min(320px, 100%);
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: clamp(25px, 4vw, 35px);
+            border-radius: 20px;
+            box-shadow: 
+                0 10px 30px rgba(212, 106, 126, 0.1),
+                0 0 0 1px rgba(212, 106, 126, 0.2);
+            text-align: center;
+            transition: transform 0.6s, box-shadow 0.6s;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(212, 106, 126, 0.3);
+        }
+
+        .detail-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(to right, #d46a7e, #b76e79);
+        }
+
+        .detail-card:hover {
+            transform: translateY(-12px) scale(1.05);
+            box-shadow: 
+                0 20px 40px rgba(212, 106, 126, 0.2),
+                0 0 0 1px rgba(212, 106, 126, 0.3);
+        }
+
+        .detail-card i {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            color: #d46a7e;
+            margin-bottom: 30px;
+        }
+
+        .detail-card h3 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            color: #8a1c3a;
+            margin-bottom: 20px;
+            font-family: 'Cinzel', serif;
+            line-height: 1.3;
+        }
+
+        .detail-card p {
+            color: #5a2c3d;
+            line-height: 1.8;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+        }
+
+        .location-map {
+            width: 100%;
+            height: clamp(300px, 50vh, 450px);
+            border-radius: 15px;
+            margin-top: 25px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(212, 106, 126, 0.2);
+            border: 2px solid #d46a7e;
+        }
+
+        .location-map iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .location-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            padding: clamp(10px, 2vw, 12px) clamp(15px, 3vw, 25px);
+            background: linear-gradient(135deg, #d46a7e, #b76e79);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.4s;
+            box-shadow: 0 5px 15px rgba(212, 106, 126, 0.3);
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            white-space: nowrap;
+        }
+
+        .location-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(212, 106, 126, 0.5);
+        }
+
+        .confirmation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: clamp(20px, 4vw, 35px);
+            margin-top: 35px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: clamp(15px, 3vw, 20px) clamp(25px, 5vw, 40px);
+            border-radius: 40px;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            cursor: pointer;
+            transition: all 0.6s;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            box-shadow: 
+                0 8px 25px rgba(212, 106, 126, 0.2),
+                0 0 0 1px rgba(212, 106, 126, 0.3);
+            position: relative;
+            overflow: hidden;
+            min-width: min(280px, 100%);
+            justify-content: center;
+        }
+
+        .btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.6s;
+        }
+
+        .btn-confirm {
+            background: linear-gradient(135deg, #d46a7e, #b76e79);
+            color: white;
+        }
+
+        .btn-confirm:hover {
+            transform: translateY(-10px) scale(1.1);
+            box-shadow: 
+                0 18px 35px rgba(212, 106, 126, 0.4),
+                0 0 0 1px rgba(212, 106, 126, 0.4);
+        }
+
+        .btn-confirm:hover::before {
+            left: 100%;
+        }
+
+        .btn-maybe {
+            background: rgba(255, 255, 255, 0.9);
+            color: #d46a7e;
+            border: 1px solid rgba(212, 106, 126, 0.3);
+        }
+
+        .btn-maybe:hover {
+            transform: translateY(-10px) scale(1.1);
+            box-shadow: 
+                0 18px 35px rgba(212, 106, 126, 0.2),
+                0 0 0 1px rgba(212, 106, 126, 0.4);
+        }
+
+        .btn-maybe:hover::before {
+            left: 100%;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+            gap: clamp(15px, 3vw, 25px);
+            margin-top: 35px;
+        }
+
+        .gallery-item {
+            height: clamp(180px, 30vw, 220px);
+            background: linear-gradient(135deg, rgba(212, 106, 126, 0.1), rgba(245, 198, 203, 0.2));
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #8a1c3a;
+            font-weight: bold;
+            transition: all 0.6s;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(212, 106, 126, 0.1);
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            border: 1px solid rgba(212, 106, 126, 0.3);
+        }
+
+        .gallery-item::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(212, 106, 126, 0.1);
+            opacity: 0;
+            transition: opacity 0.6s;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.12) rotate(3deg);
+            box-shadow: 
+                0 15px 35px rgba(212, 106, 126, 0.2),
+                0 0 20px rgba(212, 106, 126, 0.3);
+        }
+
+        .gallery-item:hover::before {
+            opacity: 1;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: clamp(15px, 3vw, 30px);
+            margin-top: 35px;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            background: rgba(255, 255, 255, 0.9);
+            padding: clamp(20px, 3vw, 30px) clamp(15px, 2vw, 25px);
+            border-radius: 20px;
+            box-shadow: 
+                0 10px 30px rgba(212, 106, 126, 0.1),
+                0 0 0 1px rgba(212, 106, 126, 0.2);
+            text-align: center;
+            min-width: min(130px, 22vw);
+            transition: transform 0.6s;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(212, 106, 126, 0.3);
+        }
+
+        .countdown-item::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(to right, #d46a7e, #b76e79);
+        }
+
+        .countdown-item:hover {
+            transform: translateY(-12px);
+            box-shadow: 
+                0 20px 40px rgba(212, 106, 126, 0.2),
+                0 0 0 1px rgba(212, 106, 126, 0.3);
+        }
+
+        .countdown-number {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: bold;
+            color: #d46a7e;
+            font-family: 'Cinzel', serif;
+            line-height: 1;
+        }
+
+        .countdown-label {
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            color: #5a2c3d;
+            margin-top: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: clamp(40px, 8vw, 80px);
+            padding-top: 50px;
+            border-top: 3px solid rgba(212, 106, 126, 0.3);
+            color: #8a1c3a;
+            font-style: italic;
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
+            font-family: 'Great Vibes', cursive;
+            position: relative;
+            z-index: 1;
+            padding: 0 10px;
+        }
+
+        /* NOVOS ELEMENTOS FLORAIS */
+        .floral-decoration {
+            position: absolute;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .flower {
+            position: absolute;
+            width: clamp(40px, 8vw, 80px);
+            height: clamp(40px, 8vw, 80px);
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.7;
+            animation: floatFlower 20s infinite linear;
+        }
+
+        .flower-1 {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,20 C60,10 80,15 80,30 C90,40 85,60 70,60 C80,70 70,90 50,80 C30,90 20,70 30,60 C15,60 10,40 20,30 C20,15 40,10 50,20Z" fill="%23d46a7e"/><circle cx="50" cy="50" r="10" fill="%23f5c6cb"/></svg>');
+            top: 10%;
+            left: 5%;
+        }
+
+        .flower-2 {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,20 C60,10 80,15 80,30 C90,40 85,60 70,60 C80,70 70,90 50,80 C30,90 20,70 30,60 C15,60 10,40 20,30 C20,15 40,10 50,20Z" fill="%23b76e79"/><circle cx="50" cy="50" r="10" fill="%23f5c6cb"/></svg>');
+            top: 15%;
+            right: 8%;
+        }
+
+        .flower-3 {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,20 C60,10 80,15 80,30 C90,40 85,60 70,60 C80,70 70,90 50,80 C30,90 20,70 30,60 C15,60 10,40 20,30 C20,15 40,10 50,20Z" fill="%23d4af37"/><circle cx="50" cy="50" r="10" fill="%23f5c6cb"/></svg>');
+            bottom: 20%;
+            left: 10%;
+        }
+
+        .flower-4 {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,20 C60,10 80,15 80,30 C90,40 85,60 70,60 C80,70 70,90 50,80 C30,90 20,70 30,60 C15,60 10,40 20,30 C20,15 40,10 50,20Z" fill="%237a9f79"/><circle cx="50" cy="50" r="10" fill="%23f5c6cb"/></svg>');
+            bottom: 15%;
+            right: 5%;
+        }
+
+        .leaf {
+            position: absolute;
+            width: clamp(30px, 6vw, 60px);
+            height: clamp(30px, 6vw, 60px);
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.6;
+            animation: floatLeaf 25s infinite linear;
+        }
+
+        .leaf-1 {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20,50 C30,30 50,20 70,30 C80,40 85,60 70,70 C60,80 40,85 30,70 C20,60 15,40 20,50Z" fill="%237a9f79"/></svg>');
+            top: 25%;
+            left: 15%;
+        }
+
+        .leaf-2 {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20,50 C30,30 50,20 70,30 C80,40 85,60 70,70 C60,80 40,85 30,70 C20,60 15,40 20,50Z" fill="%237a9f79"/></svg>');
+            bottom: 30%;
+            right: 12%;
+            transform: scaleX(-1);
+        }
+
+        /* Mensagens especiais */
+        .special-messages {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .message-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 
+                0 10px 30px rgba(212, 106, 126, 0.1),
+                0 0 0 1px rgba(212, 106, 126, 0.2);
+            transition: transform 0.6s, box-shadow 0.6s;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(212, 106, 126, 0.3);
+        }
+
+        .message-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(to bottom, #d46a7e, #b76e79);
+        }
+
+        .message-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 
+                0 20px 40px rgba(212, 106, 126, 0.2),
+                0 0 0 1px rgba(212, 106, 126, 0.3);
+        }
+
+        .message-card h3 {
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            color: #8a1c3a;
+            margin-bottom: 15px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .message-card p {
+            color: #5a2c3d;
+            line-height: 1.7;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            font-style: italic;
+        }
+
+        /* Animações */
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes smoke {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(4);
+                opacity: 0;
+            }
+        }
+
+        @keyframes floatPattern {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes nameEntrance {
+            0% {
+                opacity: 0;
+                transform: translateY(80px) scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes subtitleEntrance {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            70% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes floatFlower {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+            100% {
+                transform: translateY(0) rotate(360deg);
+            }
+        }
+
+        @keyframes floatLeaf {
+            0% {
+                transform: translateX(0) rotate(0deg);
+            }
+            50% {
+                transform: translateX(15px) rotate(180deg);
+            }
+            100% {
+                transform: translateX(0) rotate(360deg);
+            }
+        }
+
+        /* Responsividade para telas muito pequenas */
+        @media (max-width: 480px) {
+            .intro-name {
+                font-size: clamp(2.5rem, 12vw, 4rem);
+            }
+            
+            .header h1 {
+                font-size: clamp(2rem, 10vw, 3rem);
+            }
+            
+            .details {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .confirmation-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+                padding: 15px 25px;
+            }
+            
+            .countdown {
+                gap: 10px;
+            }
+            
+            .countdown-item {
+                min-width: 80px;
+                padding: 20px 15px;
+            }
+            
+            .countdown-number {
+                font-size: 2rem;
+            }
+            
+            .gallery {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .gallery-item {
+                height: 150px;
+            }
+            
+            .invite-container {
+                width: 95vw;
+                height: 80vh;
+            }
+            
+            .content-section {
+                padding: 20px;
+                margin-bottom: 30px;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .flower, .leaf {
+                display: none;
+            }
+            
+            .portuguese-border {
+                width: 80%;
+            }
+            
+            .location-link {
+                font-size: 0.8rem;
+                padding: 8px 16px;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .intro-name {
+                font-size: 2.2rem;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .countdown-item {
+                min-width: 70px;
+                padding: 15px 10px;
+            }
+            
+            .countdown-number {
+                font-size: 1.8rem;
+            }
+            
+            .btn {
+                font-size: 0.9rem;
+                padding: 12px 20px;
+            }
+        }
+
+        /* Para tablets */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .details {
+                gap: 25px;
+            }
+            
+            .detail-card {
+                min-width: 280px;
+            }
+            
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Para orientação paisagem em celulares */
+        @media (max-height: 600px) and (orientation: landscape) {
+            #intro, #closed-invite {
+                padding: 10px;
+            }
+            
+            .intro-name {
+                font-size: 3rem;
+                margin-bottom: 1rem;
+            }
+            
+            .intro-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .invite-container {
+                height: 90vh;
+            }
+            
+            .header {
+                margin-bottom: 40px;
+            }
+            
+            .header h1 {
+                font-size: 3rem;
+                margin-bottom: 15px;
+            }
+            
+            .content-section {
+                padding: 30px;
+                margin-bottom: 40px;
+            }
+        }
+
+        /* Melhorias de acessibilidade */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Melhorias de toque para dispositivos móveis */
+        @media (hover: none) {
+            .invite:hover {
+                transform: none;
+            }
+            
+            .detail-card:hover {
+                transform: none;
+            }
+            
+            .btn:hover, .location-link:hover, .open-btn:hover {
+                transform: none;
+            }
+            
+            .content-section:hover {
+                transform: none;
+            }
+            
+            .countdown-item:hover {
+                transform: none;
+            }
+            
+            .gallery-item:hover {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Tela de Introdução -->
+    <div id="intro">
+        <div class="intro-bg"></div>
+        <div class="floating-patterns" id="patterns-container"></div>
+        <div class="intro-content">
+            <h1 class="intro-name">Valeria Oliveira</h1>
+        </div>
+    </div>
+
+    <!-- Convite Fechado -->
+    <div id="closed-invite">
+        <div class="invite-container">
+            <div class="invite">
+                <div class="invite-front">
+                    <div class="rosa-border"></div>
+                    <h2 class="invite-title">Convite Especial</h2>
+                    <p class="invite-subtitle">Para o aniversário de</p>
+                    <h3>Valeria Oliveira</h3>
+                    <p class="invite-subtitle">Clique para revelar</p>
+                    <button class="open-btn">Abrir Convite</button>
+                </div>
+                <div class="invite-back">
+                    <!-- Conteúdo do verso do convite -->
+                </div>
+            </div>
+            <div class="smoke" id="smoke"></div>
+        </div>
+    </div>
+
+    <!-- Página Principal do Convite -->
+    <div id="main-invite">
+        <div class="main-bg-pattern"></div>
+        
+        <!-- Decorações florais -->
+        <div class="floral-decoration">
+            <div class="flower flower-1"></div>
+            <div class="flower flower-2"></div>
+            <div class="flower flower-3"></div>
+            <div class="flower flower-4"></div>
+            <div class="leaf leaf-1"></div>
+            <div class="leaf leaf-2"></div>
+        </div>
+        
+        <div class="header">
+            <h1>Valeria Oliveira</h1>
+            <p>Você e o nosso convidado</p>
+            <div class="venue-highlight">Spazio Villa Regia</div>
+            <div class="venue-address">Rua 1 Chácara 25/2, St. Hab. Vicente Pires, Brasília - DF</div>
+            <div class="portuguese-border"></div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">Detalhes do Evento</h2>
+            <div class="details">
+                <div class="detail-card">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h3>Data e Horário</h3>
+                    <p>22 de Novembro de 2025<br>Às 19:00 horas</p>
+                </div>
+                <div class="detail-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Localização</h3>
+                    <p>Spazio Villa Regia<br>Rua 1 Chácara 25/2, St. Hab. Vicente Pires, Brasília - DF</p>
+                    <a href="https://maps.google.com/?q=Spazio+Villa+Regia+SHIN+CA+9+Lote+1+Lago+Norte+Brasilia+DF" target="_blank" class="location-link">
+                        <i class="fas fa-map-marked-alt"></i> Ver no Google Maps
+                    </a>
+                </div>
+                <div class="detail-card">
+                    <i class="fas fa-gift"></i>
+                    <h3>Presentes</h3>
+                    <p>Sua presença é o melhor presente!<br>Mas se desejar presentear, ficaremos muito gratos.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">Confirmação de Presença</h2>
+            <p style="text-align: center; margin-bottom: 35px; color: #5a2c3d; font-size: clamp(1rem, 2.5vw, 1.3rem); line-height: 1.7;">
+                Sua confirmação é muito importante para nós!<br>Por favor, confirme sua presença até 15 de Novembro.
+            </p>
+            <div class="confirmation-buttons">
+                <button class="btn btn-confirm" id="confirm-presence">
+                    <i class="fab fa-whatsapp"></i> Confirmar Presença
+                </button>
+                <button class="btn btn-maybe" id="maybe-presence">
+                    <i class="fas fa-question"></i> Talvez
+                </button>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">Contagem Regressiva</h2>
+            <div class="countdown" id="countdown">
+                <div class="countdown-item">
+                    <div class="countdown-number" id="days">00</div>
+                    <div class="countdown-label">Dias</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="hours">00</div>
+                    <div class="countdown-label">Horas</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="minutes">00</div>
+                    <div class="countdown-label">Minutos</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="seconds">00</div>
+                    <div class="countdown-label">Segundos</div>
+                </div>
+            </div>
+        </div>
+
+     
+        <footer>
+            <p>Com carinho, Valeria Oliveira e Família</p>
+        </footer>
+    </div>
+
+    <script>
+        // Criar padrões flutuantes
+        function createPatterns() {
+            const container = document.getElementById('patterns-container');
+            const patterns = ['❦', '✻', '♣', '♦', '♥', '♠'];
+            
+            for (let i = 0; i < 12; i++) {
+                const pattern = document.createElement('div');
+                pattern.classList.add('pattern');
+                pattern.innerHTML = patterns[Math.floor(Math.random() * patterns.length)];
+                pattern.style.left = `${Math.random() * 100}%`;
+                pattern.style.animationDelay = `${Math.random() * 15}s`;
+                container.appendChild(pattern);
+            }
+        }
+
+        // Sequência de exibição das páginas
+        setTimeout(() => {
+            document.getElementById('intro').style.display = 'none';
+            document.getElementById('closed-invite').style.display = 'flex';
+        }, 4000);
+
+        // Efeito de fumaça ao abrir o convite
+        document.querySelector('.open-btn').addEventListener('click', function() {
+            const smokeContainer = document.getElementById('smoke');
+            
+            // Criar partículas de fumaça
+            for (let i = 0; i < 60; i++) {
+                const smokeParticle = document.createElement('div');
+                smokeParticle.classList.add('smoke-particle');
+                
+                // Posição aleatória
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                
+                // Movimento aleatório
+                const tx = (Math.random() - 0.5) * 250;
+                const ty = -Math.random() * 250;
+                
+                smokeParticle.style.left = `${posX}%`;
+                smokeParticle.style.top = `${posY}%`;
+                smokeParticle.style.setProperty('--tx', `${tx}px`);
+                smokeParticle.style.setProperty('--ty', `${ty}px`);
+                
+                smokeContainer.appendChild(smokeParticle);
+                
+                // Animação
+                smokeParticle.style.animation = `smoke ${1.8 + Math.random()}s ease-out forwards`;
+            }
+            
+            // Transição para a página principal
+            setTimeout(() => {
+                document.getElementById('closed-invite').style.display = 'none';
+                document.getElementById('main-invite').style.display = 'block';
+                
+                // Adicionar animação de entrada para elementos
+                const elements = document.querySelectorAll('.content-section, .header');
+                elements.forEach((el, index) => {
+                    setTimeout(() => {
+                        el.style.opacity = '0';
+                        el.style.transform = 'translateY(30px)';
+                        el.style.transition = 'opacity 0.8s, transform 0.8s';
+                        
+                        setTimeout(() => {
+                            el.style.opacity = '1';
+                            el.style.transform = 'translateY(0)';
+                        }, 100);
+                    }, index * 200);
+                });
+            }, 1800);
+        });
+
+        // Confirmação de presença via WhatsApp
+        document.getElementById('confirm-presence').addEventListener('click', function() {
+            const message = "Olá! Confirmo minha presença no aniversário da Valeria Oliveira no dia 22/11/2025 no Spazio Villa Regia. Estou ansioso(a) para celebrar este momento especial!";
+            const phoneNumber = "5561999999999"; // Substitua pelo número correto
+            const url = `https://wa.me/5561981600018?text=Ol%C3%A1!%20Confirmo%20minha%20presen%C3%A7a%20no%20anivers%C3%A1rio%20da%20Valeria%20Oliveira%20no%20dia%2022%2F11%2F2025%20no%20Spazio%20Villa%20Regia.%20Estou%20ansioso(a)%20para%20celebrar%20este%20momento%20especial!`;
+            window.open(url, '_blank');
+        });
+
+        document.getElementById('maybe-presence').addEventListener('click', function() {
+            const message = "Olá! Gostaria de informar que talvez eu compareça ao aniversário da Valeria Oliveira no dia 22/11/2025 no Spazio Villa Regia. Confirmo em breve!";
+            const phoneNumber = "5561999999999"; // Substitua pelo número correto
+            const url = `https://wa.me/5561981600018?text=Ol%C3%A1!%20Gostaria%20de%20informar%20que%20talvez%20eu%20compare%C3%A7a%20ao%20anivers%C3%A1rio%20da%20Valeria%20Oliveira%20no%20dia%2022%2F11%2F2025%20no%20Spazio%20Villa%20Regia.%20Confirmo%20em%20breve!`;
+            window.open(url, '_blank');
+        });
+
+        // Contagem regressiva
+        function updateCountdown() {
+            const eventDate = new Date('November 22, 2025 19:00:00').getTime();
+            const now = new Date().getTime();
+            const timeLeft = eventDate - now;
+            
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+        
+        // Inicializar efeitos
+        createPatterns();
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
