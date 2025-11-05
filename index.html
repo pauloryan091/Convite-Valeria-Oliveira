@@ -534,6 +534,62 @@
             font-size: clamp(1rem, 2.5vw, 1.2rem);
         }
 
+        /* BOTÃO DO GOOGLE MAPS CORRIGIDO */
+        .location-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .location-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, var(--rosa-principal), var(--rosa-escuro));
+            color: white;
+            text-decoration: none;
+            border-radius: 35px;
+            font-weight: 600;
+            transition: all 0.4s;
+            box-shadow: 0 5px 20px rgba(255, 92, 141, 0.3);
+            font-size: 1rem;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 0.5px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            min-width: 220px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .location-link::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .location-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 92, 141, 0.5);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .location-link:hover::before {
+            left: 100%;
+        }
+
+        .location-link i {
+            font-size: 1.2rem;
+        }
+
         .location-map {
             width: 100%;
             height: clamp(300px, 50vh, 450px);
@@ -548,28 +604,6 @@
             width: 100%;
             height: 100%;
             border: none;
-        }
-
-        .location-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 15px;
-            padding: clamp(10px, 2vw, 12px) clamp(15px, 3vw, 25px);
-            background: linear-gradient(135deg, var(--rosa-principal), var(--rosa-escuro));
-            color: white;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: 600;
-            transition: all 0.4s;
-            box-shadow: 0 5px 15px rgba(255, 92, 141, 0.3);
-            font-size: clamp(0.9rem, 2.5vw, 1rem);
-            white-space: nowrap;
-        }
-
-        .location-link:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(255, 92, 141, 0.5);
         }
 
         .confirmation-buttons {
@@ -1016,8 +1050,13 @@
             }
             
             .location-link {
-                font-size: 0.8rem;
-                padding: 8px 16px;
+                padding: 12px 24px;
+                font-size: 0.9rem;
+                min-width: 200px;
+            }
+            
+            .location-link i {
+                font-size: 1.1rem;
             }
         }
 
@@ -1192,9 +1231,11 @@
                     <i class="fas fa-map-marker-alt"></i>
                     <h3>Localização</h3>
                     <p>Spazio Villa Regia<br>Rua 1 Chácara 25/2, St. Hab. Vicente Pires, Brasília - DF</p>
-                    <a href="https://maps.google.com/?q=Spazio+Villa+Regia+SHIN+CA+9+Lote+1+Lago+Norte+Brasilia+DF" target="_blank" class="location-link">
-                        <i class="fas fa-map-marked-alt"></i> Ver no Google Maps
-                    </a>
+                    <div class="location-container">
+                        <a href="https://maps.google.com/?q=Spazio+Villa+Regia+SHIN+CA+9+Lote+1+Lago+Norte+Brasilia+DF" target="_blank" class="location-link">
+                            <i class="fas fa-map-marked-alt"></i> Ver no Google Maps
+                        </a>
+                    </div>
                 </div>
                 <div class="detail-card">
                     <i class="fas fa-gift"></i>
